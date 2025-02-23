@@ -1,0 +1,52 @@
+<view class="page-container">
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <view wx:elif="{{reservations.length === 0}}" class="empty-state">
+    <text>暂无预约记录</text>
+  </view>
+  
+  <view wx:else class="records-list">
+    <view class="record-card" wx:for="{{reservations}}" wx:key="_id">
+      <view class="record-header">
+        <text class="date">{{item.date}}</text><text class="status {{item.status}}">
+          {{item.status === 'upcoming' ? '待完成' : 
+            item.status === 'ongoing' ? '进行中' : 
+            item.status === 'completed' ? '已完成' : '已取消'}}
+        </text>
+      </view>
+      
+      <view class="record-content">
+        <view class="info-item">
+          <text class="label">预约人：</text>
+          <text>{{item.name}}</text>
+        </view>
+        
+        <view class="info-item">
+          <text class="label">手机号：</text>
+          <text>{{item.phone}}</text>
+        </view>
+        
+        <view class="info-item" wx:if="{{item.hasPartner}}">
+          <text class="label">同伴手机：</text>
+          <text>{{item.partnerPhone}}</text>
+        </view>
+        
+        <view class="info-item">
+          <text class="label">时间段：</text>
+          <text wx:for="{{item.timeSlots}}" wx:key="*this" wx:for-item="timeSlot" class="time-text">{{timeSlot}}</text>
+        </view>
+      </view>
+      
+      <view class="record-footer" wx:if="{{item.status === 'upcoming'}}">
+        <button 
+          class="cancel-btn" 
+          data-id="{{item._id}}" 
+          bindtap="cancelReservation"
+        >取消预约</button>
+      </view>
+    </view>
+  </view>
+</view>

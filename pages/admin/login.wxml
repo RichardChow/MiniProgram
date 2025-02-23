@@ -1,0 +1,14 @@
+<view class="page-container">
+  <view class="login-card">
+    <view class="title">管理员登录</view>
+    <input 
+      class="input" 
+      type="password" 
+      password 
+      placeholder="请输入管理员密码" 
+      value="{{password}}" 
+      bindinput="onPasswordInput"
+    />
+    <button class="login-btn" bindtap="onLogin">登录</button>
+  </view>
+</view>

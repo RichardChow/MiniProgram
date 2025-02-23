@@ -1,0 +1,65 @@
+<view class="page-container">
+  <view class="form-card">
+    <view class="form-title">预约信息</view>
+    
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label required">姓名</text>
+        <input class="input" type="text" placeholder="请输入姓名" value="{{name}}" bindinput="onNameInput"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label required">手机号</text>
+        <input class="input" type="number" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneInput"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label required">是否带同伴</text>
+        <radio-group class="radio-group" bindchange="onPartnerChange">
+          <label class="radio" wx:for="{{partnerOptions}}" wx:key="value">
+            <radio value="{{item.value}}" checked="{{hasPartner === item.value}}"/>
+            <text>{{item.name}}</text>
+          </label>
+        </radio-group>
+      </view>
+
+      <view class="form-item" wx:if="{{hasPartner}}">
+        <text class="label required">同伴手机号</text>
+        <input class="input" type="number" placeholder="请输入同伴手机号" value="{{partnerPhone}}" bindinput="onPartnerPhoneInput"/>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-card">
+    <view class="form-title">时间选择</view>
+    
+    <view class="form-group">
+      <view class="form-item">
+        <text class="label required">预约日期</text>
+        <picker mode="date" value="{{date}}" start="{{minDate}}" end="{{maxDate}}" bindchange="onDateChange">
+          <view class="picker {{date ? 'picker-selected' : ''}}">
+            {{date || '请选择日期'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item" wx:if="{{date}}">
+        <text class="label required">时间段（最多选择2个）</text>
+        <view class="slots-container">
+          <view 
+            wx:for="{{timeSlots}}" 
+            wx:key="time"
+            class="time-slot {{item.selected ? 'selected' : ''}} {{item.disabled ? 'disabled' : ''}}"
+            data-index="{{index}}"
+            bindtap="onTimeSlotTap"
+          >
+            <text>{{item.time}}</text>
+            <text class="tooltip" wx:if="{{item.disabled}}">{{item.tooltip}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit-btn" type="primary" bindtap="onSubmit">提交预约</button>
+</view> 

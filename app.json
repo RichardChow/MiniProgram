@@ -1,0 +1,40 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/reserve/reserve",
+      "pages/records/records",
+      "pages/admin/dashboard"
+    ],
+    "window": {
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "黄家社区党群服务中心乒乓球室预约",
+      "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+      "color": "#999",
+      "selectedColor": "#1890ff",
+      "backgroundColor": "#fff",
+      "enableLongPressBehavior": "pop",
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "首页",
+          "iconPath": "images/home.png",
+          "selectedIconPath": "images/home-active.png"
+        },
+        {
+          "pagePath": "pages/records/records",
+          "text": "我的预约",
+          "iconPath": "images/records.png",
+          "selectedIconPath": "images/records-active.png"
+        },
+        {
+          "pagePath": "pages/admin/dashboard",
+          "text": "管理员",
+          "iconPath": "images/admin.png",
+          "selectedIconPath": "images/admin.png"
+        }
+      ]
+    }
+  } 

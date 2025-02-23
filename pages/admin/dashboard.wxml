@@ -1,0 +1,87 @@
+<view class="container">
+  <!-- 登录模态框 -->
+  <view class="login-modal" wx:if="{{showLoginModal}}">
+    <view class="login-box">
+      <view class="login-title">管理员登录</view>
+      <view class="password-input-container">
+        <input 
+          class="login-input" 
+          password="{{!showPassword}}"
+          placeholder="请输入管理员密码" 
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+      <button class="login-btn" bindtap="handleLogin">登录</button>
+    </view>
+  </view>
+
+  <!-- 管理界面内容 -->
+  <block wx:if="{{isLoggedIn}}">
+    <view class="content">
+      <view class="header-btns">
+        <view class="logout-btn" bindtap="handleLogout">退出登录</view>
+        <view class="clear-btn" bindtap="handleClearData">清空数据</view>
+      </view>
+      <view class="title">预约管理</view>
+
+      <!-- 数据统计 -->
+      <view class="stats-row">
+        <view class="stat-item">
+          <view class="stat-content">
+            <text class="stat-value">{{totalCount}}</text>
+            <text class="stat-label">总预约</text>
+          </view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-content">
+            <text class="stat-value">{{upcomingCount}}</text>
+            <text class="stat-label">待完成</text>
+          </view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-content">
+            <text class="stat-value">{{completedCount}}</text>
+            <text class="stat-label">已完成</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 日期选择器 -->
+      <picker mode="date" value="{{currentDate}}" bindchange="onDateChange">
+        <view class="date-picker">{{currentDate || '2025-02-20'}}</view>
+      </picker>
+
+      <!-- 状态筛选 -->
+      <view class="filter-row">
+        <view class="filter-btn {{filterStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="onStatusChange">全部</view>
+        <view class="filter-btn {{filterStatus === 'upcoming' ? 'active' : ''}}" data-status="upcoming" bindtap="onStatusChange">待完成</view>
+        <view class="filter-btn {{filterStatus === 'completed' ? 'active' : ''}}" data-status="completed" bindtap="onStatusChange">已完成</view>
+        <view class="filter-btn {{filterStatus === 'cancelled' ? 'active' : ''}}" data-status="cancelled" bindtap="onStatusChange">已取消</view>
+      </view>
+
+      <!-- 预约列表 -->
+      <view class="reservation-list" wx:if="{{reservations.length > 0}}">
+        <view class="reservation-item" wx:for="{{reservations}}" wx:key="id">
+          <view class="item-header">
+            <text class="item-time">{{item.date}}</text>
+            <text class="item-status">{{item.status === 'upcoming' ? '待完成' : item.status === 'completed' ? '已完成' : '已取消'}}</text>
+          </view>
+          <view class="item-content">
+            <view class="info-row">
+              <text class="info-label">预约人：</text>
+              <text class="info-value">{{item.name}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">手机号：</text>
+              <text class="info-value">{{item.phone}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 暂无预约记录 -->
+      <view class="empty-state" wx:if="{{reservations.length === 0}}">暂无预约记录</view>
+    </view>
+  </block>
+</view>

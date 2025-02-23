@@ -1,0 +1,29 @@
+<view class="page-container">
+  <view class="banner" bindtap="onImageTap">
+    <image class="banner-image" src="{{bannerImage}}" mode="aspectFill"></image>
+  </view>
+
+  <view class="content">
+    <view class="title">黄家社区党群服务中心</view>
+    <view class="subtitle">乒乓球室预约</view>
+    
+    <view class="info-section">
+      <view class="info-title">开放时间</view>
+      <view class="info-item">周二至周日</view>
+      <view class="info-item">上午 09:00-11:00</view>
+      <view class="info-item">下午 14:00-17:00</view>
+      <view class="info-item">晚上 18:00-20:00</view>
+    </view>
+
+    <view class="info-section">
+      <view class="info-title">预约须知</view>
+      <view class="info-item">1. 每次最多可预约2个时间段</view>
+      <view class="info-item">2. 可提前7天预约</view>
+      <view class="info-item">3. 周一闭馆不开放</view>
+      <view class="info-item">4. 请至少提前30分钟取消预约</view>
+      <view class="info-item">5. 预约成功后，如无特殊原因却累计缺席3次及以上，后续一个月内将被限制预约</view>
+    </view>
+
+    <button class="reserve-btn" bindtap="goToReserve">立即预约</button>
+  </view>
+</view> 
