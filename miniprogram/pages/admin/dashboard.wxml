@@ -56,6 +56,7 @@
       <view class="filter-row">
         <view class="filter-btn {{filterStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="onStatusChange">全部</view>
         <view class="filter-btn {{filterStatus === 'upcoming' ? 'active' : ''}}" data-status="upcoming" bindtap="onStatusChange">待完成</view>
+        <view class="filter-btn {{filterStatus === 'ongoing' ? 'active' : ''}}" data-status="ongoing" bindtap="onStatusChange">进行中</view>
         <view class="filter-btn {{filterStatus === 'completed' ? 'active' : ''}}" data-status="completed" bindtap="onStatusChange">已完成</view>
         <view class="filter-btn {{filterStatus === 'cancelled' ? 'active' : ''}}" data-status="cancelled" bindtap="onStatusChange">已取消</view>
       </view>

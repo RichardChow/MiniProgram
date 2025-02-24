@@ -2,6 +2,8 @@
     "appid": "wx7c96f0222c9b3fa8",
     "compileType": "miniprogram",
     "libVersion": "3.7.8",
+    "miniprogramRoot": "miniprogram/",
+    "cloudfunctionRoot": "cloudfunctions/",
     "packOptions": {
         "ignore": [],
         "include": []
@@ -14,12 +16,14 @@
         "enhance": true,
         "showShadowRootInWxmlPanel": true,
         "packNpmRelationList": [],
+        "checkSiteMap": false,
         "babelSetting": {
             "ignore": [],
-            "disablePlugins": [],
+            "disablePlugins": [
+                "@babel/plugin-transform-runtime"
+            ],
             "outputPath": ""
-        },
-        "cloudfunctionRoot": "cloudfunctions/"
+        }
     },
     "condition": {},
     "editorSetting": {
@@ -27,5 +31,7 @@
         "tabSize": 4
     },
     "projectArchitecture": "miniProgram",
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
+    "cloudfunctionTemplateRoot": "cloudTemplate/",
+    "projectname": "%E4%B9%92%E4%B9%93%E7%90%83%E9%A2%84%E7%BA%A6",
+    "srcMiniprogramRoot": "miniprogram/"
 }

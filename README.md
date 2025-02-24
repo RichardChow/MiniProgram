@@ -1,2 +1,0 @@
-# MiniProgram
-my first miniprograme
