@@ -3,7 +3,8 @@
       "pages/index/index",
       "pages/reserve/reserve",
       "pages/records/records",
-      "pages/admin/dashboard"
+      "pages/admin/dashboard",
+      "pages/admin/absentRecords/absentRecords"
     ],
     "window": {
       "backgroundTextStyle": "light",

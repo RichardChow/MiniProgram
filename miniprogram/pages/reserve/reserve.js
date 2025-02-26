@@ -26,6 +26,8 @@ Page({
   
     onLoad() {
       this.initDateRange();
+      // 检查用户是否被限制预约
+      this.checkRestrictionStatus();
     },
   
     // 初始化可选日期范围
@@ -84,15 +86,23 @@ Page({
     checkTimeSlotAvailability(date, timeSlot) {
       return new Promise((resolve) => {
         const db = wx.cloud.database();
+        // 获取当天所有未取消且未完成的预约
         db.collection('reservations')
           .where({
             date: date,
-            status: 'upcoming',
-            timeSlots: timeSlot
+            status: db.command.in(['upcoming', 'ongoing', 'partially_completed'])
           })
           .get({
             success: res => {
-              resolve(res.data.length === 0);
+              // 在前端检查每个预约的timeSlots数组是否包含要检查的时间段
+              let isTimeSlotAvailable = true;
+              for (const reservation of res.data) {
+                if (reservation.timeSlots.includes(timeSlot)) {
+                  isTimeSlotAvailable = false;
+                  break;
+                }
+              }
+              resolve(isTimeSlotAvailable);
             },
             fail: err => {
               console.error('查询失败：', err);
@@ -212,38 +222,18 @@ Page({
         return;
       }
   
-      // 添加到云数据库
-      const db = wx.cloud.database();
-      db.collection('reservations').add({
-        data: {
-          name: this.data.name,
-          phone: this.data.phone,
-          hasPartner: this.data.hasPartner,
-          partnerPhone: this.data.partnerPhone,
-          date: this.data.date,
-          timeSlots: this.data.selectedTimeSlots,
-          createTime: db.serverDate(),
-          status: 'upcoming'
-        },
-        success: res => {
-          wx.showToast({
-            title: '预约成功',
-            icon: 'success'
-          });
-          this.resetForm();
-          // 预约成功后跳转到我的预约页面
-          wx.switchTab({
-            url: '/pages/records/records'
-          });
-        },
-        fail: err => {
-          console.error('预约失败：', err);
-          wx.showToast({
-            title: '预约失败',
-            icon: 'error'
-          });
-        }
-      });
+      // 再次检查用户是否被限制
+      if (this.data.isRestricted) {
+        wx.showModal({
+          title: '预约限制',
+          content: `您因连续缺席已被限制预约，限制将于 ${this.data.restrictEndDate} 解除。`,
+          showCancel: false
+        });
+        return;
+      }
+  
+      // 直接进行预约处理
+      this.proceedWithReservation();
     },
   
     // 表单验证
@@ -311,5 +301,108 @@ Page({
           { time: '19:00-20:00', selected: false, disabled: false }
         ]
       });
-    }
+    },
+  
+    // 处理预约提交
+    proceedWithReservation() {
+      // 准备预约数据
+      const data = {
+        name: this.data.name,
+        phone: this.data.phone,
+        hasPartner: this.data.hasPartner,
+        partnerPhone: this.data.hasPartner ? this.data.partnerPhone : '',
+        date: this.data.date,
+        timeSlots: this.data.selectedTimeSlots,
+        status: 'upcoming',
+        createTime: new Date()
+      };
+      
+      // 提交预约
+      const db = wx.cloud.database();
+      db.collection('reservations').add({
+        data: data,
+        success: res => {
+          wx.showToast({
+            title: '预约成功',
+            icon: 'success'
+          });
+          this.resetForm();
+          
+          // 预约成功后延迟1.5秒跳转到我的预约页面
+          setTimeout(() => {
+            wx.switchTab({
+              url: '/pages/records/records'
+            });
+          }, 1500);
+        },
+        fail: err => {
+          console.error('预约失败:', err);
+          wx.showToast({
+            title: '预约失败',
+            icon: 'error'
+          });
+        }
+      });
+    },
+  
+    // 检查用户是否被限制预约
+    checkRestrictionStatus() {
+      const app = getApp();
+      if (!app.globalData.userOpenId) {
+        // 如果没有openid，先获取
+        wx.cloud.callFunction({
+          name: 'getOpenId',
+          success: res => {
+            app.globalData.userOpenId = res.result.openid;
+            this.checkUserRestriction(res.result.openid);
+          },
+          fail: err => {
+            console.error('获取openid失败:', err);
+          }
+        });
+      } else {
+        // 直接检查限制状态
+        this.checkUserRestriction(app.globalData.userOpenId);
+      }
+    },
+  
+    // 检查用户是否在限制列表中
+    checkUserRestriction(openid) {
+      const db = wx.cloud.database();
+      const now = new Date();
+      
+      db.collection('restrictedUsers')
+        .where({
+          openid: openid,
+          restrictEndTime: db.command.gt(now) // 限制结束时间大于当前时间
+        })
+        .get()
+        .then(res => {
+          if (res.data && res.data.length > 0) {
+            // 用户在限制列表中且限制期未结束
+            const restrictEndTime = new Date(res.data[0].restrictEndTime);
+            const endDateStr = restrictEndTime.toLocaleDateString();
+            
+            // 设置限制状态
+            this.setData({
+              isRestricted: true,
+              restrictEndDate: endDateStr
+            });
+            
+            // 显示限制提示
+            wx.showModal({
+              title: '预约限制',
+              content: `您因连续缺席已被限制预约，限制将于 ${endDateStr} 解除。`,
+              showCancel: false,
+              success: () => {
+                // 返回上一页
+                wx.navigateBack();
+              }
+            });
+          }
+        })
+        .catch(err => {
+          console.error('检查限制状态失败:', err);
+        });
+    },
   }); 

@@ -75,8 +75,8 @@ Page({
             
             // 处理每个预约的状态
             const updatedReservations = res.data.map(reservation => {
-              // 如果已取消，保持取消状态
-              if (reservation.status === 'cancelled') {
+              // 对于已取消或已缺席的状态，直接保持原状态
+              if (reservation.status === 'cancelled' || reservation.status === 'absent') {
                 return reservation;
               }
               

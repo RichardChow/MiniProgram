@@ -14,7 +14,9 @@
         <text class="date">{{item.date}}</text><text class="status {{item.status}}">
           {{item.status === 'upcoming' ? '待完成' : 
             item.status === 'ongoing' ? '进行中' : 
-            item.status === 'completed' ? '已完成' : '已取消'}}
+            item.status === 'completed' ? '已完成' : 
+            item.status === 'cancelled' ? '已取消' : 
+            item.status === 'absent' ? '已缺席' : ''}}
         </text>
       </view>
       

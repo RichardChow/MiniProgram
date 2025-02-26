@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="empty-state" wx:if="{{loading}}">加载中...</view>
+  <view class="empty-state" wx:elif="{{absentRecords.length === 0}}">暂无缺席记录</view>
+  <view class="absent-list">
+    <view 
+      class="absent-item {{item.isRestricted ? 'restricted' : ''}}" 
+      wx:for="{{absentRecords}}" 
+      wx:key="openid"
+    >
+      <view class="user-info">
+        <text class="name">预约人：{{item.name}}</text>
+        <text class="count">缺席次数：{{item.count}}</text>
+        <text class="warning" wx:if="{{item.isRestricted}}">已限制预约一个月</text>
+      </view>
+      <view class="record-list">
+        <view class="record-item" wx:for="{{item.records}}" wx:key="_id" wx:for-item="record">
+          <text>日期：{{record.date}}</text>
+          <text>预约时间段：{{record.timeSlotsFormatted}}</text>
+          <text>缺席时间：{{record.absentTimeFormatted}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

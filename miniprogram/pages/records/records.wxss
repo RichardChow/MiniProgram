@@ -80,6 +80,10 @@
     color: #999;
   }
   
+  .status.absent {
+    color: #f5222d;
+  }
+  
   .record-content {
     padding: 20rpx 0;
   }

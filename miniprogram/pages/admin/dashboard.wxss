@@ -7,11 +7,6 @@
     width: 100%;
   }
   
-  .logout-btn {
-    color: #ff4d4f;
-    font-size: 28rpx;
-  }
-  
   .title {
     font-size: 36rpx;
     font-weight: 500;
@@ -113,28 +108,6 @@
   .info-row .label {
     width: 160rpx;
     color: #666;
-  }
-  
-  .time-slots {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16rpx;
-    margin-top: 8rpx;
-    margin-bottom: 8rpx;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .time-tag {
-    font-size: 26rpx;
-    color: #1890ff;
-    background: #e6f7ff;
-    padding: 4rpx 16rpx;
-    border-radius: 4rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 120rpx;
   }
   
   .card-footer {
@@ -516,7 +489,6 @@
   
   .item-status {
     font-size: 24rpx;
-    color: #1890ff;
   }
   
   .info-row {
@@ -537,12 +509,188 @@
   }
 
   .header-btns {
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    padding: 30rpx 30rpx 0;
+    justify-content: center;
+    align-items: center;
+    padding: 20rpx 0;
+    margin: 20rpx auto;
+    width: 90%;
+    overflow: hidden;
+    border-radius: 20rpx;
+    background: transparent;
   }
-
-  .clear-btn {
+  
+  .logout-btn, .clear-btn, .absent-btn {
+    position: relative;
     color: #ff4d4f;
     font-size: 28rpx;
+    flex: 1;
+    text-align: center;
+    padding: 10rpx 0;
+    background: #FFF0F0;
+    z-index: 1;
+    border: 2rpx solid #eee;
+  }
+  
+  .logout-btn {
+    border-top-left-radius: 20rpx;
+    border-bottom-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
+    border-bottom-right-radius: 20rpx;
+  }
+  
+  .clear-btn {
+    border-top-left-radius: 20rpx;
+    border-bottom-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
+    border-bottom-right-radius: 20rpx;
+  }
+  
+  .absent-btn {
+    border-top-left-radius: 20rpx;
+    border-bottom-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
+    border-bottom-right-radius: 20rpx;
+  }
+
+  .movable-area {
+    width: 100%;
+    height: 200rpx;
+    position: relative;
+    margin-bottom: 20rpx;
+    overflow: hidden;
+  }
+
+  .movable-view {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: #fff;
+    transition: all 0.2s ease;
+  }
+
+  .reservation-item {
+    width: 100%;
+    height: 100%;
+    padding: 20rpx;
+    box-sizing: border-box;
+    background: #fff;
+  }
+
+  .action-buttons {
+    position: absolute;
+    right: -320rpx;
+    top: 0;
+    height: 100%;
+    display: flex;
+    transition: all 0.3s ease;
+  }
+
+  .action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160rpx;
+    height: 100%;
+    color: #fff;
+    font-size: 28rpx;
+  }
+
+  .action-button.cancel {
+    background-color: #ff9800;
+  }
+
+  .action-button.absent {
+    background-color: #f44336;
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+  }
+
+  .item-time {
+    font-size: 32rpx;
+    font-weight: bold;
+  }
+
+  .item-status {
+    font-size: 28rpx;
+    color: #666;
+  }
+
+  .info-row {
+    display: flex;
+    margin-bottom: 10rpx;
+  }
+
+  .info-label {
+    color: #666;
+    width: 140rpx;
+  }
+
+  .info-value {
+    flex: 1;
+  }
+
+  /* 时间段文字颜色 */
+  .info-row:last-child .info-value text {
+    color: #1890ff;
+  }
+
+  /* 状态颜色 */
+  .item-status.upcoming {
+    color: #1890ff;  /* 蓝色 - 待完成 */
+  }
+  
+  .item-status.ongoing {
+    color: #52c41a;  /* 绿色 - 进行中 */
+  }
+  
+  .item-status.completed {
+    color: #722ed1;  /* 紫色 - 已完成 */
+  }
+  
+  .item-status.cancelled {
+    color: #999;     /* 灰色 - 已取消 */
+  }
+  
+  .item-status.absent {
+    color: #f5222d;  /* 红色 - 已缺席 */
+  }
+
+  /* 部分完成状态 */
+  .item-status.partially_completed {
+    color: #fa8c16;  /* 橙色 - 部分完成 */
+  }
+
+  .reservation-wrapper {
+    position: relative;
+    margin-bottom: 20rpx;
+    overflow: hidden;
+  }
+
+  .action-buttons {
+    position: absolute;
+    right: -320rpx;
+    top: 0;
+    height: 100%;
+    display: flex;
+    transition: all 0.3s ease;
+  }
+
+  .action-buttons.show {
+    right: 0;
+  }
+  
+  .action-hint {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3rpx;
+    height: 100%;
+    background-color: #ff9800;
+    z-index: 0;
   }
